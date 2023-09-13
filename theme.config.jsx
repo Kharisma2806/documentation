@@ -9,5 +9,4 @@ export default {
     project: {
         link: 'https://github.com/ultimateai'
     }
-    // ... other theme options
 }
