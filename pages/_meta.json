@@ -1,4 +1,15 @@
 {
-  "index": "Home Page",
-  "docs": "API Documentation"
+  "index": {
+    "type": "page",
+    "title": "Home",
+    "display": "hidden"
+  },
+  "blog": {
+    "type": "page",
+    "title": "Blog"
+  },
+  "docs": {
+    "type": "page",
+    "title": "Documentation"
+  }
 }
