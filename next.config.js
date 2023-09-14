@@ -3,6 +3,12 @@ const nextConfig = {
     sassOptions: {
         includePaths: [require('path').join(__dirname, 'styles')],
     },
+    compiler: {
+        styledComponents: {
+            displayName: true,
+        }
+    }
+
 }
 
 const withNextra = require('nextra')({

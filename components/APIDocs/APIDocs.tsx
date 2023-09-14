@@ -1,15 +1,18 @@
 import {RedocRawOptions} from "redoc/typings/services/RedocNormalizedOptions";
 import {RedocStandalone} from "redoc";
 import {useTheme} from "next-themes";
+import styled from 'styled-components';
+import {ThemeInterface} from "redoc/typings/theme";
 
 const darkModeColors = {
-	backgroundColor: "black",
-	textColor: "white",
+	backgroundColor: "transparent",
+	textColor: "pink",
 };
 
-const darkModeTheme = {
+const darkModeTheme: ThemeInterface = {
 	sidebar: darkModeColors,
 	codeBlock: darkModeColors,
+	rightPanel: darkModeColors,
 	colors: {
 		text: {
 			primary: "white"
@@ -17,6 +20,7 @@ const darkModeTheme = {
 	}
 }
 
+const StyledMook = styled.div`color: pink`
 
 const APIDocs = () => {
 	const theme = useTheme();
@@ -25,7 +29,10 @@ const APIDocs = () => {
 		hideLoading: true, theme: theme.resolvedTheme === "dark" ? darkModeTheme : undefined
 	}
 
-	return <RedocStandalone options={options} specUrl="/swagger.yaml"/>
+	return <>
+		<StyledMook>mook mook</StyledMook>
+		<RedocStandalone options={options} specUrl="/swagger.yaml"/>
+	</>
 }
 
 export default APIDocs;
