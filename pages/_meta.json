@@ -12,7 +12,7 @@
     "type": "page",
     "title": "Documentation",
     "theme": {
-      "layout": "raw"
+      "layout": "full"
     }
   }
 }
