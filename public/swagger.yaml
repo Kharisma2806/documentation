@@ -1,0 +1,668 @@
+openapi: 3.0.0
+info:
+  title: Template Repo TS REST API
+  description: Template Repo TS REST API.
+  version: 1.0.0
+paths:
+  /dashboard/integration/read-list:
+    post:
+      security:
+        - APIKey: []
+      summary: Read integrations
+      description: Reads a list of integrations for the use of showing in the dialog builder
+      tags:
+        - Integration management
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: string
+                  description: looks for the provided string inside name and description
+                organizations:
+                  type: array
+                  items:
+                    type: string
+                createdBy:
+                  type: array
+                  items:
+                    type: string
+                type:
+                  $ref: '#/components/schemas/IntegrationTypeEnum'
+                skip:
+                  type: integer
+                limit:
+                  type: integer
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  integrations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          $ref: '#/components/schemas/MongoObjectId'
+                        name:
+                          type: string
+                        organizations:
+                          type: array
+                          items:
+                            type: string
+                        apiParams:
+                          $ref: '#/components/schemas/ApiParamsSchema'
+                        answerScenarios:
+                          $ref: '#/components/schemas/AnswerScenariosSchema'
+                        environments:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/EnvironmentSchema'
+                        creation:
+                          type: object
+                          properties:
+                            timestamp:
+                              type: string
+                              pattern: date-time
+                            user:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                email:
+                                  type: string
+                              nullable: true
+                        lastEdit:
+                          type: object
+                          properties:
+                            timestamp:
+                              type: string
+                              pattern: date-time
+                            user:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                email:
+                                  type: string
+                              nullable: true
+                  pagination:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                      skip:
+                        type: integer
+                      limit:
+                        type: integer
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/read-by-id:
+    post:
+      security:
+        - APIKey: []
+      summary: Read one integration
+      description: Reads one integration with all the information needed for managing that integration
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/MongoObjectId'
+              required:
+                - id
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    $ref: '#/components/schemas/MongoObjectId'
+                  name:
+                    type: string
+                  organizations:
+                    type: array
+                    items:
+                      type: string
+                  apiParams:
+                    $ref: '#/components/schemas/ApiParamsSchema'
+                  answerScenarios:
+                    $ref: '#/components/schemas/AnswerScenariosSchema'
+                  environments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentSchema'
+                  description:
+                    type: string
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/create:
+    post:
+      security:
+        - APIKey: []
+      summary: Create an integration
+      description:
+        Create an integration with a name, and receive an integration JSON with default fields in the response
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                organizations:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                type:
+                  $ref: '#/components/schemas/IntegrationTypeEnum'
+              required:
+                - name
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    $ref: '#/components/schemas/MongoObjectId'
+                  name:
+                    type: string
+                  organizations:
+                    type: array
+                    items:
+                      type: string
+                  apiParams:
+                    $ref: '#/components/schemas/ApiParamsSchema'
+                  answerScenarios:
+                    $ref: '#/components/schemas/AnswerScenariosSchema'
+                  environments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentSchema'
+                  description:
+                    type: string
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/duplicate:
+    post:
+      security:
+        - APIKey: []
+      summary: Duplicate an integration
+      description: Duplicate an integration overriding its name, description and organizations
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                integrationId:
+                  $ref: '#/components/schemas/MongoObjectId'
+                name:
+                  type: string
+                organizations:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+              required:
+                - integrationId
+                - name
+                - organizations
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    $ref: '#/components/schemas/MongoObjectId'
+                  name:
+                    type: string
+                  organizations:
+                    type: array
+                    items:
+                      type: string
+                  apiParams:
+                    $ref: '#/components/schemas/ApiParamsSchema'
+                  answerScenarios:
+                    $ref: '#/components/schemas/AnswerScenariosSchema'
+                  environments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentSchema'
+                  description:
+                    type: string
+        '400':
+          description: Incorrect Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/update:
+    post:
+      security:
+        - APIKey: []
+      summary: Update an integration
+      description: Updates an integration based on the JSON object
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/MongoObjectId'
+                name:
+                  type: string
+                organizations:
+                  type: array
+                  items:
+                    type: string
+                apiParams:
+                  $ref: '#/components/schemas/ApiParamsSchema'
+                answerScenarios:
+                  $ref: '#/components/schemas/AnswerScenariosSchema'
+                environments:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/EnvironmentSchema'
+                description:
+                  type: string
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: '#/components/schemas/MongoObjectId'
+                  name:
+                    type: string
+                  organizations:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - id
+                  - name
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/delete:
+    post:
+      security:
+        - APIKey: []
+      summary: Delete an integration
+      description: Deletes an integration with an id
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: '#/components/schemas/MongoObjectId'
+              required:
+                - id
+      responses:
+        '200':
+          description: 'OK'
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+
+  /internal/integration/process:
+    post:
+      security:
+        - APIKey: []
+      summary: Processes public session variables from chat-middleware
+      description: Processes public session variables from chat-middleware and validates it for missing params
+      tags:
+        - Integration processing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                publicSessionId:
+                  $ref: '#/components/schemas/MongoObjectId'
+                integrationId:
+                  $ref: '#/components/schemas/MongoObjectId'
+              required:
+                - publicSessionId
+                - integrationId
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [missing, fallback, normal]
+                  _id:
+                    $ref: '#/components/schemas/MongoObjectId'
+                  name:
+                    type: string
+                  integrationName:
+                    type: string
+                  variableMappings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string # this is actually an any type
+                        sanitize:
+                          type: boolean
+                  missingParams:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Missing Params
+        '500':
+          description: Internal Server Error
+
+  /dashboard/integration/test:
+    post:
+      security:
+        - APIKey: []
+      summary: Test an API Integration request
+      description: Make a test call to a third party API and get the response in return
+      tags:
+        - Integration processing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                environment:
+                  $ref: '#/components/schemas/TestEnvironmentSchema'
+                testApiParams:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                      type:
+                        type: string
+                        enum: [string, boolean, number]
+              required:
+                - name
+                - environment
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                  statusCode:
+                    oneOf:
+                      - type: string
+                      - type: integer
+                  requestParameters:
+                    type: object
+        '400':
+          description: Missing Params
+        '500':
+          description: Internal Server Error
+  /dashboard/integration/read-integrations-by-auth-integratio:
+    post:
+      security:
+        - APIKey: []
+      summary: Get all integrations that use a given auth integration
+      tags:
+        - Integration management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authIntegrationId:
+                  $ref: '#/components/schemas/MongoObjectId'
+              required:
+                - authIntegrationId
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  integrations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          $ref: '#/components/schemas/MongoObjectId'
+                        name:
+                          type: string
+        '400':
+          description: Missing Params
+        '500':
+          description: Internal Server Error
+components:
+  securitySchemes:
+    APIKey:
+      description: 'JWT Token'
+      type: 'apiKey'
+      name: 'Authorization'
+      in: 'header'
+  schemas:
+    MongoObjectId:
+      type: string
+      pattern: '/^[a-f\d]{24}$/i'
+      example: 5c06a0b96cdc4e3de20754bc
+    ApiParamsSchema:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          type:
+            type: string
+            enum: [string, boolean, number]
+          optional:
+            type: boolean
+          testValue:
+            type: string
+    AnswerScenariosSchema:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            $ref: '#/components/schemas/MongoObjectId'
+          name:
+            type: string
+          query:
+            type: string
+          variableMappings:
+            type: array
+            items:
+              type: object
+              properties:
+                variable:
+                  type: string
+                query:
+                  type: string
+    IntegrationJSONSchema:
+      type: object
+      properties:
+        apiParams:
+          $ref: '#/components/schemas/ApiParamsSchema'
+        answerScenarios:
+          $ref: '#/components/schemas/AnswerScenariosSchema'
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentSchema'
+    TestEnvironmentSchema:
+      type: array
+      items:
+        type: object
+        properties:
+          default:
+            type: boolean
+          headers:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: string
+          url:
+            type: string
+          httpBody:
+            type: object
+          httpMethod:
+            type: string
+          authentication:
+            type: object
+            properties:
+              type:
+                type: string
+              token:
+                type: string
+              apiKey:
+                type: string
+              basic:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  password:
+                    type: string
+              oauth2:
+                type: object
+                properties:
+                  grantType:
+                    type: string
+                  clientId:
+                    type: string
+                  clientSecret:
+                    type: string
+                  issuer:
+                    type: string
+                  tokenPath:
+                    type: string
+                  issuePath:
+                    type: string
+                  revokePath:
+                    type: string
+                  scope:
+                    type: string
+                  customFields:
+                    type: object
+                    additionalProperties: true
+              custom:
+                type: object
+                properties:
+                  authIntegrationId:
+                    $ref: '#/components/schemas/MongoObjectId'
+              awsV4:
+                type: object
+                properties:
+                  accessKeyId:
+                    type: string
+                  secretAccessKey:
+                    type: string
+                  sessionToken:
+                    type: string
+                  region:
+                    type: string
+                  service:
+                    type: string
+                required:
+                  - accessKeyId
+                  - secretAccessKey
+    EnvironmentSchema:
+      allOf:
+        - $ref: '#/components/schemas/TestEnvironmentSchema'
+        - type: object
+          properties:
+            name:
+              type: string
+            _id:
+              type: string
+    IntegrationTypeEnum:
+      type: string
+      enum: [normal, auth]
