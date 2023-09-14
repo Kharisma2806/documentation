@@ -6,7 +6,7 @@ import {ThemeInterface} from "redoc/typings/theme";
 
 const darkModeColors = {
 	backgroundColor: "transparent",
-	textColor: "pink",
+	textColor: "white",
 };
 
 const darkModeTheme: ThemeInterface = {
@@ -20,8 +20,6 @@ const darkModeTheme: ThemeInterface = {
 	}
 }
 
-const StyledMook = styled.div`color: pink`
-
 const APIDocs = () => {
 	const theme = useTheme();
 
@@ -30,7 +28,6 @@ const APIDocs = () => {
 	}
 
 	return <>
-		<StyledMook>mook mook</StyledMook>
 		<RedocStandalone options={options} specUrl="/swagger.yaml"/>
 	</>
 }

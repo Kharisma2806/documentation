@@ -4,9 +4,9 @@
     "title": "Home",
     "display": "hidden"
   },
-  "blog": {
+  "guide": {
     "type": "page",
-    "title": "Blog"
+    "title": "Guide"
   },
   "docs": {
     "type": "page",
