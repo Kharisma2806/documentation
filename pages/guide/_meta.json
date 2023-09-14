@@ -1,4 +1,6 @@
 {
-  "cook-a-plum": "",
-  "eat-an-apple": ""
+  "index": {
+    "title": "Guide",
+    "display": "hidden"
+  }
 }
