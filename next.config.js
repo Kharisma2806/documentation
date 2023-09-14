@@ -8,7 +8,6 @@ const nextConfig = {
             displayName: true,
         }
     }
-
 }
 
 const withNextra = require('nextra')({
