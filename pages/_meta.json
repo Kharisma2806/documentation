@@ -8,9 +8,9 @@
     "type": "page",
     "title": "Guide"
   },
-  "docs": {
+  "api_reference": {
     "type": "page",
-    "title": "Documentation",
+    "title": "API",
     "theme": {
       "layout": "full"
     }
