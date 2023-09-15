@@ -20,7 +20,7 @@ const darkModeTheme: ThemeInterface = {
 	}
 }
 
-const APIDocs = () => {
+const RedocAPIDocs = () => {
 	const theme = useTheme();
 
 	const options: RedocRawOptions = {
@@ -32,4 +32,4 @@ const APIDocs = () => {
 	</>
 }
 
-export default APIDocs;
+export default RedocAPIDocs;

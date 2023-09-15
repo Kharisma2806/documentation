@@ -1,2 +1,2 @@
-import APIDocs from "./APIDocs"
-export default APIDocs
+import RedocAPIDocs from "./RedocAPIDocs"
+export default RedocAPIDocs
