@@ -5,8 +5,8 @@ import '@stoplight/elements/styles.min.css';
 const ElementsAPIDocs = () => {
 	return <API
 		apiDescriptionUrl="/swagger.yaml"
-
-		router="hash"
+		//@ts-ignore
+		router="static"
 	/>
 }
 
