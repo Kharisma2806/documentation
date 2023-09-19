@@ -8,13 +8,6 @@
     "type": "page",
     "title": "Guide"
   },
-  "api_redoc": {
-    "type": "page",
-    "title": "API (redoc)",
-    "theme": {
-      "layout": "full"
-    }
-  },
   "api_elements": {
     "type": "page",
     "title": "API (elements)",
